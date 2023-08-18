@@ -71,8 +71,18 @@ export default class App extends Component {
         this.setState(({ todoData }) => {
             return {
                 todoData: todoData.map((item) => {
-                    return item.id === id ? { ...item, edit: !item.edit } : item
-                })
+                    return item.id === id ? { ...item, edit: true } : item
+                }),
+            }
+        })
+    }
+
+    updateTask = (labelUpdate, id) => {
+        this.setState(({ todoData }) => {
+            return {
+                todoData: todoData.map((item) => {
+                    return item.id === id ? { ...item, label: labelUpdate, edit: false } : item
+                }),
             }
         })
     }
@@ -82,7 +92,7 @@ export default class App extends Component {
     }
 
     render() {
-        const { todoData, filter } = this.state;
+        const { todoData, filter, edit } = this.state;
         const doneCount = todoData.filter((el) => el.done).length;
         const todoCount = todoData.length - doneCount;
         const filteredItems = filter === 'all'
@@ -99,6 +109,8 @@ export default class App extends Component {
                         onDeleted={this.deleteItem}
                         onToggleDone={this.onToggleDone}
                         onToggleEdit={this.onToggleEdit}
+                        edit={edit}
+                        updateTask={this.updateTask}
                     />
                 </section>
                 <Footer
