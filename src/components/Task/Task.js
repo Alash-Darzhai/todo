@@ -1,10 +1,12 @@
 import { Component } from 'react'
 import { formatDistanceToNow } from 'date-fns'
+import PropTypes from 'prop-types'
 import './Task.css'
 
 export default class Task extends Component {
     state = {
-        label: ''
+        label: '',
+        newDate: new Date()
     }
 
     onChangeValue = (e) => {
@@ -22,6 +24,7 @@ export default class Task extends Component {
     }
     render() {
         const { label, onDeleted, onToggleDone, onToggleEdit, done, edit } = this.props;
+        const { newDate } = this.state
 
         const classNames = edit ? 'editing' : done ? 'completed' : ''
 
@@ -31,7 +34,7 @@ export default class Task extends Component {
                     <input className="toggle" type="checkbox" checked={done} onChange={onToggleDone} />
                     <label>
                         <span className="description" >{label}</span>
-                        <span className="created">created {formatDistanceToNow(new Date(), { includeSeconds: true })} ago</span>
+                        <span className="created">created {formatDistanceToNow(newDate, { includeSeconds: true })} ago</span>
                     </label>
                     <button className="icon icon-edit" onClick={onToggleEdit}></button>
                     <button className="icon icon-destroy" onClick={onDeleted}></button>
@@ -44,4 +47,14 @@ export default class Task extends Component {
             </li >
         )
     }
+}
+Task.defaultProps = {
+    onDeleted: () => { },
+    onToggleDone: () => { },
+    onToggleEdit: () => { }
+}
+Task.propTypes = {
+    onDeleted: PropTypes.func,
+    onToggleDone: PropTypes.func,
+    onToggleEdit: PropTypes.func
 }

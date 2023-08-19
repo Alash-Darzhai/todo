@@ -114,7 +114,7 @@ export default class App extends Component {
                     />
                 </section>
                 <Footer
-                    done={todoCount}
+                    itemsLeft={todoCount}
                     deletedCompletedItems={this.deletedCompletedItems}
                     filter={filter}
                     onFilterChange={this.onFilterChange}
